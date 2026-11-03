@@ -1,119 +1,71 @@
 <!DOCTYPE html>
-<html lang="en" class="scroll-smooth">
+<html lang="en" class="h-full">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Deandra & Danial — Obsidian Universe 🖤✨</title>
+  <title>DEANDRA-OS v3.0 — Obsidian System 🖤</title>
   
-  <!-- Tailwind CSS & FontAwesome -->
+  <!-- Tailwind CSS & FontAwesome Icons -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
   
-  <!-- Google Fonts: Space Grotesk, Cinzel, Monument Extended alternative, Caveat -->
-  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Cinzel:wght@400;700;900&family=Space+Grotesk:wght@300;400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <!-- Google Fonts: Space Grotesk, JetBrains Mono, Syne, Caveat -->
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=JetBrains+Mono:wght@400;600;800&family=Space+Grotesk:wght@300;400;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
 
   <style>
-    /* ================= OBSIDIAN NOIR THEME SYSTEM ================= */
     :root {
-      --bg-black: #030303;
-      --card-black: rgba(15, 15, 15, 0.75);
-      --border-white: rgba(255, 255, 255, 0.15);
-      --border-glow: rgba(255, 255, 255, 0.4);
-      --accent-silver: #e2e8f0;
+      --bg-pitch-black: #000000;
+      --os-surface: rgba(18, 18, 18, 0.85);
+      --os-border: rgba(255, 255, 255, 0.15);
+      --os-glow: rgba(255, 255, 255, 0.3);
     }
 
     body {
       font-family: 'Space Grotesk', sans-serif;
-      background-color: var(--bg-black);
+      background-color: var(--bg-pitch-black);
       background-image: 
-        radial-gradient(circle at 15% 15%, rgba(40, 40, 40, 0.3) 0px, transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(25, 25, 25, 0.4) 0px, transparent 45%),
-        radial-gradient(circle at 50% 50%, rgba(5, 5, 5, 0.95) 0px, transparent 100%);
+        radial-gradient(circle at 10% 10%, rgba(30, 30, 30, 0.5) 0px, transparent 40%),
+        radial-gradient(circle at 90% 90%, rgba(20, 20, 20, 0.5) 0px, transparent 40%),
+        radial-gradient(circle at 50% 50%, rgba(0, 0, 0, 0.95) 0px, transparent 100%);
       color: #f8fafc;
-      overflow-x: hidden;
+      overflow: hidden;
     }
 
+    .font-os-mono { font-family: 'JetBrains Mono', monospace; }
     .font-title { font-family: 'Syne', sans-serif; }
-    .font-serif-luxury { font-family: 'Cinzel', serif; }
     .font-handwriting { font-family: 'Caveat', cursive; }
 
-    /* Glassmorphism Dark Cards */
-    .obsidian-glass {
-      background: rgba(12, 12, 12, 0.65);
+    /* OS Glass Windows */
+    .os-glass-window {
+      background: var(--os-surface);
       backdrop-filter: blur(25px);
       -webkit-backdrop-filter: blur(25px);
-      border: 1px solid var(--border-white);
-      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      border: 1px solid var(--os-border);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9);
     }
 
-    .obsidian-glow {
-      border: 1px solid var(--border-glow);
-      box-shadow: 0 0 30px rgba(255, 255, 255, 0.1), inset 0 0 15px rgba(255, 255, 255, 0.03);
+    .os-dock-item {
+      transition: all 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    .os-dock-item:hover {
+      transform: translateY(-8px) scale(1.15);
     }
 
-    .btn-noir {
-      background: #ffffff;
-      color: #000000;
-      font-weight: 700;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 20px rgba(255, 255, 255, 0.15);
-    }
-    .btn-noir:hover {
-      background: #e2e8f0;
-      transform: translateY(-2px);
-      box-shadow: 0 6px 30px rgba(255, 255, 255, 0.3);
-    }
-
-    .btn-noir-ghost {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #ffffff;
-    }
-    .btn-noir-ghost:hover {
-      background: rgba(255, 255, 255, 0.15);
-      border-color: #ffffff;
-    }
-
-    /* 3D Oracle Card Styles */
-    .oracle-card { perspective: 1000px; }
-    .oracle-card-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-      transform-style: preserve-3d;
-    }
-    .oracle-card.flipped .oracle-card-inner { transform: rotateY(180deg); }
-    .oracle-card-front, .oracle-card-back {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      backface-visibility: hidden;
-      border-radius: 1.5rem;
-    }
-    .oracle-card-back { transform: rotateY(180deg); }
-
-    /* Particles & Animations */
-    .floating-particle {
+    /* Particles */
+    .particle {
       position: fixed;
       pointer-events: none;
-      animation: floatUp 4s ease-out forwards;
-      z-index: 99;
+      animation: floatUp 3.5s ease-out forwards;
+      z-index: 999;
     }
     @keyframes floatUp {
       0% { transform: translateY(0) scale(0.6) rotate(0deg); opacity: 1; }
-      100% { transform: translateY(-110vh) scale(1.4) rotate(360deg); opacity: 0; }
+      100% { transform: translateY(-100vh) scale(1.3) rotate(360deg); opacity: 0; }
     }
-
-    @keyframes floatSlow {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-10px) rotate(1deg); }
-    }
-    .animate-float { animation: floatSlow 4s ease-in-out infinite; }
 
     /* Custom Scrollbar */
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: var(--bg-black); }
+    ::-webkit-scrollbar { width: 5px; height: 5px; }
+    ::-webkit-scrollbar-track { background: #050505; }
     ::-webkit-scrollbar-thumb { background: #333333; border-radius: 3px; }
     ::-webkit-scrollbar-thumb:hover { background: #ffffff; }
 
@@ -121,441 +73,394 @@
     input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
   </style>
 </head>
-<body class="antialiased min-h-screen relative pb-32 selection:bg-white selection:text-black">
+<body class="h-full relative select-none selection:bg-white selection:text-black">
 
   <!-- Audio Player -->
   <audio id="bg-music" src="shapeofmyheart.mp3" loop></audio>
   <div id="particles-container"></div>
 
-  <!-- ================= 0. BIOMETRIC & PASSCODE GATEKEEPER ================= -->
-  <section id="gatekeeper" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#030303]/98 backdrop-blur-2xl transition-all duration-700">
-    <div id="gatekeeper-box" class="obsidian-glass obsidian-glow p-8 md:p-12 max-w-md w-full text-center rounded-[40px] relative animate-float">
+  <!-- ================= 0. TERMINAL BIOS LOCK SCREEN ================= -->
+  <section id="bios-screen" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black font-os-mono text-gray-200">
+    <div class="max-w-md w-full bg-[#080808] border border-white/20 p-6 md:p-8 rounded-2xl shadow-2xl relative">
       
-      <div class="inline-block px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] font-mono tracking-widest text-gray-300 uppercase mb-6">
-        🔒 RESTRICTED &bull; DEANDRA ONLY
+      <!-- Terminal Header Bar -->
+      <div class="flex items-center justify-between border-b border-white/15 pb-3 mb-4 text-xs text-gray-400">
+        <span class="flex items-center gap-2"><i class="fa-solid fa-terminal text-white"></i> DEANDRA-OS BOOTLOADER</span>
+        <span>v3.0.4</span>
       </div>
 
-      <h1 class="font-title text-3xl md:text-4xl font-extrabold text-white tracking-wider mb-2">
-        AUTHENTICATE
-      </h1>
-      <p class="text-xs text-gray-400 mb-8 font-light">
-        Enter secret passcode or scan biometric seal (Hint: 030326).
-      </p>
-
-      <!-- Simulated Fingerprint Scan -->
-      <div onclick="scanBiometric()" class="w-20 h-20 mx-auto rounded-full bg-white/5 border border-white/20 flex items-center justify-center text-3xl text-gray-300 hover:text-white hover:border-white transition cursor-pointer mb-6 group relative overflow-hidden">
-        <i class="fa-solid fa-fingerprint group-hover:scale-110 transition duration-300"></i>
-        <div id="bio-scan-line" class="absolute inset-x-0 h-1 bg-white opacity-0 transition-all"></div>
+      <div class="space-y-2 text-xs text-gray-400 mb-6 font-os-mono">
+        <p class="text-white">> SYSTEM STATUS: ENCRYPTED</p>
+        <p>> TARGET USER: DEANDRA</p>
+        <p>> CREATOR: DANIAL ALAN</p>
+        <p class="text-emerald-400">> ENTER ANNIVERSARY PASSCODE (030326)...</p>
       </div>
 
-      <!-- Password Input -->
+      <!-- Passcode Input -->
       <div class="relative mb-5">
-        <input type="password" id="pass-input" placeholder="Passcode (030326)" class="w-full bg-white/5 border border-white/20 rounded-2xl py-3.5 px-4 text-center text-xl font-mono font-bold tracking-widest text-white focus:outline-none focus:border-white transition placeholder:text-gray-600 placeholder:text-sm placeholder:tracking-normal">
+        <input type="password" id="pass-input" placeholder="PASSCODE" class="w-full bg-white/5 border border-white/30 rounded-xl py-3 px-4 text-center text-lg font-bold tracking-widest text-white focus:outline-none focus:border-white transition placeholder:text-gray-600">
       </div>
 
-      <button onclick="checkPasscode()" class="w-full btn-noir font-title text-xs py-4 rounded-2xl tracking-widest uppercase">
-        UNLOCK UNIVERSE ✦
+      <button onclick="bootSystem()" class="w-full bg-white hover:bg-gray-200 text-black font-bold font-os-mono text-xs py-3 rounded-xl transition tracking-widest uppercase">
+        BOOT SYSTEM 🚀
       </button>
 
-      <p id="pass-error" class="text-xs text-rose-400 mt-4 font-mono hidden">
-        Incorrect passcode! Try remembering our anniversary. 😜
+      <p id="pass-error" class="text-xs text-rose-400 mt-4 font-os-mono text-center hidden">
+        [ERROR]: Invalid credentials. Try anniversary date (030326)!
       </p>
     </div>
   </section>
 
 
-  <!-- ================= MAIN UNIVERSE CONTENT ================= -->
-  <div id="main-app" class="hidden">
+  <!-- ================= 1. DESKTOP ENVIRONMENT ================= -->
+  <div id="desktop-env" class="hidden h-full flex flex-col justify-between relative overflow-hidden">
 
-    <!-- FLOATING TOP NAVIGATION -->
-    <nav class="fixed top-4 left-1/2 -translate-x-1/2 z-40 obsidian-glass px-6 py-3 rounded-full border border-white/20 flex items-center gap-4 md:gap-7 text-xs font-mono tracking-wider">
-      <a href="#hero" class="hover:text-white transition"><i class="fa-solid fa-compact-disc mr-1"></i>Vibe</a>
-      <a href="#game" class="hover:text-white transition"><i class="fa-solid fa-gamepad mr-1"></i>Arcade</a>
-      <a href="#timer" class="hover:text-white transition"><i class="fa-solid fa-clock mr-1"></i>Timer</a>
-      <a href="#mood" class="hover:text-white transition"><i class="fa-solid fa-face-smile mr-1"></i>Mood</a>
-      <a href="#slots" class="hover:text-white transition"><i class="fa-solid fa-dice mr-1"></i>Slots</a>
-      <a href="#coupons" class="hover:text-white transition"><i class="fa-solid fa-ticket mr-1"></i>Vouchers</a>
-      <a href="#gallery" class="hover:text-white transition"><i class="fa-solid fa-images mr-1"></i>Vault</a>
-    </nav>
+    <!-- TOP SYSTEM STATUS BAR -->
+    <header class="h-9 bg-black/70 backdrop-blur-md border-b border-white/10 px-4 flex items-center justify-between text-xs font-os-mono text-gray-300 z-30">
+      <div class="flex items-center gap-4">
+        <span class="font-bold text-white flex items-center gap-2"><i class="fa-solid fa-cube"></i> DEANDRA-OS</span>
+        <span class="hidden md:inline text-gray-500">|</span>
+        <span class="hidden md:inline text-gray-400">User: <strong class="text-white">Deandra</strong></span>
+      </div>
+      
+      <div class="flex items-center gap-5 text-[11px]">
+        <span class="text-emerald-400"><i class="fa-solid fa-[#00ff88] fa-signal mr-1"></i> CONNECTED TO DANIAL</span>
+        <span id="sys-clock" class="text-white font-bold">00:00:00 AM</span>
+      </div>
+    </header>
 
-    <!-- 1. HERO & VINYL MUSIC PLAYER -->
-    <section id="hero" class="min-h-screen flex flex-col items-center justify-center p-4 relative pt-24">
-      <div class="obsidian-glass obsidian-glow p-8 md:p-14 max-w-3xl w-full text-center rounded-[45px] relative z-10 my-6">
+
+    <!-- DESKTOP WORKSPACE & APP ICONS -->
+    <main class="flex-1 p-6 relative overflow-hidden">
+      
+      <!-- DESKTOP APP GRID -->
+      <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-6 max-w-4xl z-10 relative">
         
-        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-gray-300 text-xs font-mono mb-6">
-          ✦ OBSIDIAN NOIR EDITION ✦
+        <!-- App 1: Music -->
+        <div onclick="openApp('win-music')" class="flex flex-col items-center group cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-2xl text-white group-hover:bg-white group-hover:text-black transition shadow-lg">
+            <i class="fa-solid fa-compact-disc"></i>
+          </div>
+          <span class="mt-2 text-[11px] font-os-mono text-gray-300 group-hover:text-white">Music.app</span>
         </div>
 
-        <h1 class="font-title text-4xl md:text-6xl font-extrabold text-white tracking-wider mb-2">
-          DEANDRA & DANIAL
-        </h1>
-        <p class="font-serif-luxury italic text-sm md:text-base text-gray-400 mb-8">
-          A timeless digital dimension built with quiet elegance and affection.
-        </p>
+        <!-- App 2: Messenger -->
+        <div onclick="openApp('win-chat')" class="flex flex-col items-center group cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-2xl text-white group-hover:bg-white group-hover:text-black transition shadow-lg">
+            <i class="fa-solid fa-comments"></i>
+          </div>
+          <span class="mt-2 text-[11px] font-os-mono text-gray-300 group-hover:text-white">D&D Chat</span>
+        </div>
 
-        <!-- VINYL MUSIC CONTROLLER -->
-        <div class="obsidian-glass p-6 rounded-3xl border border-white/20 max-w-xl mx-auto text-center relative overflow-hidden">
-          
-          <div class="relative w-36 h-36 mx-auto mb-6">
-            <!-- Vinyl Record -->
-            <div id="vinyl-record" class="w-full h-full rounded-full bg-gradient-to-tr from-black via-zinc-900 to-zinc-800 border-4 border-zinc-700 flex items-center justify-center shadow-2xl transition-transform duration-700">
-              <div class="w-12 h-12 rounded-full bg-white/10 border border-white/40 flex items-center justify-center">
-                <div class="w-3 h-3 rounded-full bg-white"></div>
+        <!-- App 3: Photo Vault -->
+        <div onclick="openApp('win-gallery')" class="flex flex-col items-center group cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-2xl text-white group-hover:bg-white group-hover:text-black transition shadow-lg">
+            <i class="fa-solid fa-images"></i>
+          </div>
+          <span class="mt-2 text-[11px] font-os-mono text-gray-300 group-hover:text-white">Vault.app</span>
+        </div>
+
+        <!-- App 4: Time Matrix -->
+        <div onclick="openApp('win-timer')" class="flex flex-col items-center group cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-2xl text-white group-hover:bg-white group-hover:text-black transition shadow-lg">
+            <i class="fa-solid fa-hourglass-half"></i>
+          </div>
+          <span class="mt-2 text-[11px] font-os-mono text-gray-300 group-hover:text-white">Timer.app</span>
+        </div>
+
+        <!-- App 5: Arcade -->
+        <div onclick="openApp('win-arcade')" class="flex flex-col items-center group cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-2xl text-white group-hover:bg-white group-hover:text-black transition shadow-lg">
+            <i class="fa-solid fa-gamepad"></i>
+          </div>
+          <span class="mt-2 text-[11px] font-os-mono text-gray-300 group-hover:text-white">Arcade.app</span>
+        </div>
+
+        <!-- App 6: Vouchers -->
+        <div onclick="openApp('win-vouchers')" class="flex flex-col items-center group cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-2xl text-white group-hover:bg-white group-hover:text-black transition shadow-lg">
+            <i class="fa-solid fa-ticket"></i>
+          </div>
+          <span class="mt-2 text-[11px] font-os-mono text-gray-300 group-hover:text-white">Tickets.app</span>
+        </div>
+
+        <!-- App 7: Secret Note -->
+        <div onclick="openApp('win-letter')" class="flex flex-col items-center group cursor-pointer">
+          <div class="w-14 h-14 rounded-2xl bg-white/10 border border-white/20 flex items-center justify-center text-2xl text-white group-hover:bg-white group-hover:text-black transition shadow-lg">
+            <i class="fa-solid fa-file-lines"></i>
+          </div>
+          <span class="mt-2 text-[11px] font-os-mono text-gray-300 group-hover:text-white">Note.txt</span>
+        </div>
+
+      </div>
+
+
+      <!-- FLOATING DESKTOP WINDOWS SYSTEM -->
+
+      <!-- WINDOW 1: MUSIC PLAYER APP -->
+      <div id="win-music" class="os-glass-window absolute top-12 left-4 md:left-20 w-[92%] md:w-[460px] rounded-2xl hidden z-20">
+        <!-- Window Title Bar -->
+        <div class="h-8 bg-black/60 border-b border-white/15 px-3 flex items-center justify-between text-xs font-os-mono">
+          <span class="text-gray-300"><i class="fa-solid fa-compact-disc mr-1"></i> Music Player — Shape of My Heart</span>
+          <div class="flex items-center gap-2">
+            <button onclick="closeApp('win-music')" class="w-3 h-3 rounded-full bg-rose-500 hover:opacity-80"></button>
+          </div>
+        </div>
+        <!-- Window Body -->
+        <div class="p-6 text-center">
+          <div class="w-32 h-32 mx-auto mb-4 rounded-full bg-gradient-to-tr from-black via-zinc-800 to-zinc-700 border-2 border-white/30 flex items-center justify-center shadow-2xl relative">
+            <div id="music-disc-inner" class="w-10 h-10 rounded-full bg-white/20 border border-white/40 flex items-center justify-center">
+              <div class="w-2.5 h-2.5 rounded-full bg-white"></div>
+            </div>
+          </div>
+          <h3 class="font-title text-base font-bold text-white mb-1">Shape of My Heart</h3>
+          <p class="text-xs text-gray-400 font-os-mono mb-4">Backstreet Boys &bull; Danial's Playlist</p>
+
+          <!-- Synced Lyrics -->
+          <div id="lyrics-box" class="h-14 bg-black/50 border border-white/15 rounded-xl flex items-center justify-center p-2 text-xs font-os-mono text-gray-200 mb-5 italic">
+            Hit play to start lyrics stream...
+          </div>
+
+          <button id="music-play-btn" onclick="toggleAudio()" class="w-full bg-white hover:bg-gray-200 text-black font-bold font-os-mono text-xs py-3 rounded-xl transition uppercase">
+            PLAY AUDIO ✦
+          </button>
+        </div>
+      </div>
+
+
+      <!-- WINDOW 2: CHAT MESSENGER SIMULATOR APP -->
+      <div id="win-chat" class="os-glass-window absolute top-16 left-4 md:left-32 w-[92%] md:w-[480px] rounded-2xl hidden z-20">
+        <div class="h-8 bg-black/60 border-b border-white/15 px-3 flex items-center justify-between text-xs font-os-mono">
+          <span class="text-gray-300"><i class="fa-solid fa-comments mr-1"></i> Chat — Danial</span>
+          <button onclick="closeApp('win-chat')" class="w-3 h-3 rounded-full bg-rose-500"></button>
+        </div>
+        
+        <div class="p-4 flex flex-col h-[360px]">
+          <!-- Chat Feed -->
+          <div id="chat-feed" class="flex-1 overflow-y-auto space-y-3 pr-2 text-xs font-os-mono mb-4">
+            <div class="flex gap-2">
+              <div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-xs text-white font-bold shrink-0">D</div>
+              <div class="bg-white/10 border border-white/15 p-3 rounded-2xl rounded-tl-none max-w-[80%] text-gray-200">
+                Hey Deandra! Welcome to your personal OS. How are you liking it so far? 🥰
               </div>
             </div>
           </div>
 
-          <!-- Synced Lyrics Display -->
-          <div id="lyrics-display" class="min-h-[50px] flex items-center justify-center font-mono text-sm md:text-base text-gray-200 px-4 mb-4 text-center">
-            <p class="opacity-50 italic text-xs">Hit Play to start music & synchronized lyrics...</p>
+          <!-- Preset Reply Buttons -->
+          <div class="border-t border-white/15 pt-3 grid grid-cols-2 gap-2 text-[11px] font-os-mono">
+            <button onclick="sendChatReply('I love it so much! 🥰')" class="bg-white/5 hover:bg-white/15 border border-white/20 p-2 rounded-xl text-left truncate">1. I love it so much! 🥰</button>
+            <button onclick="sendChatReply('Danial is the coolest! 😎')" class="bg-white/5 hover:bg-white/15 border border-white/20 p-2 rounded-xl text-left truncate">2. Danial is the coolest! 😎</button>
           </div>
-
-          <button id="music-play-btn" onclick="toggleMusic()" class="w-full btn-noir font-title text-xs py-3.5 px-6 rounded-2xl transition flex items-center justify-center gap-2 tracking-widest uppercase">
-            <i class="fa-solid fa-play" id="music-play-icon"></i> <span id="music-play-text">PLAY TRACK: SHAPE OF MY HEART</span>
-          </button>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- 2. MINI GAME: COSMIC HEART CATCHER ARCADE -->
-    <section id="game" class="py-16 px-4 max-w-4xl mx-auto">
-      <div class="obsidian-glass obsidian-glow p-8 md:p-10 rounded-[40px] text-center relative overflow-hidden">
-        
-        <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] font-mono text-gray-300 uppercase">
-          Interactive Arcade 🎮
-        </span>
-        <h2 class="font-title text-2xl md:text-3xl font-extrabold text-white mt-3 mb-2">
-          COSMIC HEART CATCHER
-        </h2>
-        <p class="font-serif-luxury italic text-xs text-gray-400 mb-6">
-          Move your mouse/touch left & right to catch falling hearts and score points!
-        </p>
-
-        <div class="relative w-full h-[320px] rounded-3xl bg-[#080808] border border-white/20 overflow-hidden shadow-inner">
-          <canvas id="game-canvas" class="w-full h-full cursor-none"></canvas>
-          
-          <div id="game-overlay" class="absolute inset-0 bg-black/80 backdrop-blur-sm flex flex-col items-center justify-center p-4">
-            <h3 class="font-title text-xl text-white font-bold mb-2">READY TO PLAY?</h3>
-            <p class="text-xs text-gray-400 mb-4 font-mono">Catch 10 hearts to unlock a surprise message!</p>
-            <button onclick="startGame()" class="btn-noir font-title text-xs py-3 px-8 rounded-xl uppercase tracking-widest">
-              START GAME 🚀
-            </button>
-          </div>
-        </div>
-
-        <div class="flex justify-between items-center text-xs font-mono text-gray-400 mt-4 px-2">
-          <span>SCORE: <span id="game-score" class="font-bold text-white">0</span> / 10</span>
-          <span id="game-status">Catch the hearts!</span>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- 3. RELATIONSHIP COUNTER & MILESTONE RING -->
-    <section id="timer" class="py-16 px-4 max-w-4xl mx-auto">
-      <div class="obsidian-glass p-8 md:p-10 rounded-[40px] text-center relative border border-white/20">
-        
-        <div class="inline-block px-3 py-1 rounded-md bg-white/10 border border-white/20 text-[10px] font-mono text-gray-300 uppercase tracking-widest mb-3">
-          TIME CONTINUUM ⏳
-        </div>
-        <h2 class="font-title text-2xl md:text-3xl font-bold text-white mb-1">DAYS GLUED TOGETHER</h2>
-        <p class="text-xs text-gray-400 mb-8 font-mono">Official Start: March 3, 2026 (03-03-2026)</p>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div class="bg-white/5 border border-white/15 p-5 rounded-2xl transform hover:scale-105 transition">
-            <span id="days" class="font-title text-4xl font-extrabold text-white block">0</span>
-            <span class="text-[10px] text-gray-400 font-mono uppercase tracking-widest">Days</span>
-          </div>
-          <div class="bg-white/5 border border-white/15 p-5 rounded-2xl transform hover:scale-105 transition">
-            <span id="hours" class="font-title text-4xl font-extrabold text-white block">0</span>
-            <span class="text-[10px] text-gray-400 font-mono uppercase tracking-widest">Hours</span>
-          </div>
-          <div class="bg-white/5 border border-white/15 p-5 rounded-2xl transform hover:scale-105 transition">
-            <span id="minutes" class="font-title text-4xl font-extrabold text-white block">0</span>
-            <span class="text-[10px] text-gray-400 font-mono uppercase tracking-widest">Minutes</span>
-          </div>
-          <div class="bg-white/5 border border-white/15 p-5 rounded-2xl transform hover:scale-105 transition">
-            <span id="seconds" class="font-title text-4xl font-extrabold text-white block">0</span>
-            <span class="text-[10px] text-gray-400 font-mono uppercase tracking-widest">Seconds</span>
-          </div>
-        </div>
-
-        <!-- Progress to 1 Year -->
-        <div class="bg-white/5 p-4 rounded-2xl border border-white/10">
-          <div class="flex justify-between text-xs text-gray-400 mb-2 font-mono">
-            <span>ANNIVERSARY MILESTONE (YEAR 1)</span>
-            <span id="year-progress-percent" class="text-white font-bold">0%</span>
-          </div>
-          <div class="w-full bg-gray-900 rounded-full h-2.5 overflow-hidden p-0.5 border border-white/10">
-            <div id="year-progress-bar" class="bg-white h-full rounded-full w-0 transition-all duration-1000"></div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- 4. MOOD MATRIX SELECTOR -->
-    <section id="mood" class="py-16 px-4 max-w-3xl mx-auto">
-      <div class="obsidian-glass p-8 md:p-10 rounded-[40px] text-center border border-white/20">
-        
-        <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] font-mono text-gray-300 uppercase">
-          Today's Vibe Check 🎭
-        </span>
-        <h2 class="font-title text-2xl font-bold text-white mt-3 mb-2">
-          HOW IS DEANDRA FEELING TODAY?
-        </h2>
-        <p class="font-serif-luxury italic text-xs text-gray-400 mb-8">
-          Tap your current mood to receive a custom tailored response from Danial!
-        </p>
-
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-          <button onclick="selectMood('happy')" class="bg-white/5 hover:bg-white/15 border border-white/20 p-4 rounded-2xl transition flex flex-col items-center">
-            <span class="text-3xl mb-2">🥰</span>
-            <span class="text-xs font-mono text-white font-bold">Happy / Excited</span>
-          </button>
-          
-          <button onclick="selectMood('tired')" class="bg-white/5 hover:bg-white/15 border border-white/20 p-4 rounded-2xl transition flex flex-col items-center">
-            <span class="text-3xl mb-2">😴</span>
-            <span class="text-xs font-mono text-white font-bold">Tired / Sleepy</span>
-          </button>
-
-          <button onclick="selectMood('hungry')" class="bg-white/5 hover:bg-white/15 border border-white/20 p-4 rounded-2xl transition flex flex-col items-center">
-            <span class="text-3xl mb-2">🍕</span>
-            <span class="text-xs font-mono text-white font-bold">Hungry / Craving</span>
-          </button>
-
-          <button onclick="selectMood('miss')" class="bg-white/5 hover:bg-white/15 border border-white/20 p-4 rounded-2xl transition flex flex-col items-center">
-            <span class="text-3xl mb-2">💭</span>
-            <span class="text-xs font-mono text-white font-bold">Missing Danial</span>
-          </button>
-        </div>
-
-        <div id="mood-response-box" class="hidden bg-white/10 border border-white/30 p-5 rounded-2xl text-sm font-medium text-gray-200">
-          <p id="mood-text" class="italic"></p>
-        </div>
-
-      </div>
-    </section>
-
-
-    <!-- 5. LOVE SLOT MACHINE -->
-    <section id="slots" class="py-16 px-4 max-w-xl mx-auto text-center">
-      <div class="obsidian-glass obsidian-glow p-8 rounded-[40px] relative border border-white/20">
-        
-        <span class="px-3 py-1 rounded-full bg-white/10 border border-white/20 text-[10px] font-mono text-gray-300 uppercase">
-          Jackpot Draw 🎰
-        </span>
-
-        <h2 class="font-title text-2xl md:text-3xl font-bold text-white mt-3 mb-2">
-          LOVE SLOT MACHINE
-        </h2>
-        <p class="font-serif-luxury text-xs text-gray-400 mb-6 italic">
-          Spin 3 matching reels to claim your special reward from Danial!
-        </p>
-
-        <div class="grid grid-cols-3 gap-3 bg-[#0a0a0a] p-4 rounded-2xl border border-white/20 mb-6 shadow-inner">
-          <div class="h-24 bg-white/5 rounded-xl border border-white/20 flex items-center justify-center text-4xl shadow-inner">
-            <span id="reel1">🖤</span>
-          </div>
-          <div class="h-24 bg-white/5 rounded-xl border border-white/20 flex items-center justify-center text-4xl shadow-inner">
-            <span id="reel2">✨</span>
-          </div>
-          <div class="h-24 bg-white/5 rounded-xl border border-white/20 flex items-center justify-center text-4xl shadow-inner">
-            <span id="reel3">🪩</span>
-          </div>
-        </div>
-
-        <button onclick="spinLoveSlots()" id="slot-spin-btn" class="w-full btn-noir font-title text-xs py-3.5 rounded-2xl transition uppercase tracking-widest">
-          SPIN FOR REWARD ✦
-        </button>
-
-        <p id="slot-result" class="text-xs font-mono font-bold text-white mt-4 hidden animate-bounce"></p>
-
-      </div>
-    </section>
-
-
-    <!-- 6. LOVE COUPONS & RECEIPT MODAL -->
-    <section id="coupons" class="py-16 px-4 max-w-4xl mx-auto">
-      <h2 class="font-title text-2xl md:text-3xl font-extrabold text-center text-white mb-2">LOVE VOUCHERS 🎟️</h2>
-      <p class="text-center text-xs text-gray-400 mb-10 font-mono">Tap any voucher to issue an official digital claim receipt</p>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <div onclick="claimCoupon('Unlimited Foodie Quest')" class="obsidian-glass p-6 rounded-3xl cursor-pointer border-l-4 border-l-white hover:bg-white/10 transition transform hover:-rotate-1">
-          <div class="text-white text-2xl mb-2"><i class="fa-solid fa-utensils"></i></div>
-          <h3 class="font-bold text-white text-base">Foodie Quest Pass</h3>
-          <p class="text-xs text-gray-400 mt-2 font-light">Danial treats whatever food or snack you crave today.</p>
-          <div class="mt-4 inline-block text-[10px] font-mono font-bold bg-white text-black px-3 py-1 rounded-full">CLAIM VOUCHER ➔</div>
-        </div>
-
-        <div onclick="claimCoupon('Instant Forgiveness Immunity')" class="obsidian-glass p-6 rounded-3xl cursor-pointer border-l-4 border-l-gray-400 hover:bg-white/10 transition transform hover:rotate-1">
-          <div class="text-gray-300 text-2xl mb-2"><i class="fa-solid fa-shield"></i></div>
-          <h3 class="font-bold text-white text-base">Forgiveness Immunity</h3>
-          <p class="text-xs text-gray-400 mt-2 font-light">If Danial gets annoying, use this card for instant victory.</p>
-          <div class="mt-4 inline-block text-[10px] font-mono font-bold bg-white text-black px-3 py-1 rounded-full">CLAIM VOUCHER ➔</div>
-        </div>
-
-        <div onclick="claimCoupon('Movie Director Rights')" class="obsidian-glass p-6 rounded-3xl cursor-pointer border-l-4 border-l-white hover:bg-white/10 transition transform hover:-rotate-1">
-          <div class="text-white text-2xl mb-2"><i class="fa-solid fa-film"></i></div>
-          <h3 class="font-bold text-white text-base">Director's Cut Pass</h3>
-          <p class="text-xs text-gray-400 mt-2 font-light">Deandra picks movie & snacks. Zero complaints allowed.</p>
-          <div class="mt-4 inline-block text-[10px] font-mono font-bold bg-white text-black px-3 py-1 rounded-full">CLAIM VOUCHER ➔</div>
         </div>
       </div>
-    </section>
 
 
-    <!-- 7. PHOTO LIGHTBOX GALLERY -->
-    <section id="gallery" class="py-16 px-4 max-w-5xl mx-auto">
-      <h2 class="font-title text-2xl md:text-3xl font-extrabold text-center text-white mb-2">SNAPSHOT VAULT 📸</h2>
-      <p class="text-center text-xs text-gray-400 mb-10 font-mono">Click any photo to view in full screen lightbox</p>
-
-      <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-        <div onclick="openLightbox('foto1.jpg', 'Cutest Moment #1')" class="bg-zinc-900 border border-white/20 p-3 rounded-2xl transform -rotate-2 hover:rotate-0 transition duration-300 shadow-xl cursor-pointer">
-          <img src="foto1.jpg" alt="Photo 1" class="w-full h-44 object-cover rounded-xl mb-2 grayscale hover:grayscale-0 transition duration-500">
-          <p class="text-center font-handwriting text-2xl text-white">Cutest moment #1</p>
+      <!-- WINDOW 3: PHOTO VAULT APP -->
+      <div id="win-gallery" class="os-glass-window absolute top-10 left-4 md:left-40 w-[92%] md:w-[600px] rounded-2xl hidden z-20">
+        <div class="h-8 bg-black/60 border-b border-white/15 px-3 flex items-center justify-between text-xs font-os-mono">
+          <span class="text-gray-300"><i class="fa-solid fa-images mr-1"></i> Photo Vault (foto1.jpg — foto6.jpg)</span>
+          <button onclick="closeApp('win-gallery')" class="w-3 h-3 rounded-full bg-rose-500"></button>
         </div>
-        <div onclick="openLightbox('foto2.jpg', 'Pure Chaos #2')" class="bg-zinc-900 border border-white/20 p-3 rounded-2xl transform rotate-2 hover:rotate-0 transition duration-300 shadow-xl cursor-pointer">
-          <img src="foto2.jpg" alt="Photo 2" class="w-full h-44 object-cover rounded-xl mb-2 grayscale hover:grayscale-0 transition duration-500">
-          <p class="text-center font-handwriting text-2xl text-white">Pure chaos #2</p>
-        </div>
-        <div onclick="openLightbox('foto3.jpg', 'Favorite Smile #3')" class="bg-zinc-900 border border-white/20 p-3 rounded-2xl transform -rotate-1 hover:rotate-0 transition duration-300 shadow-xl cursor-pointer">
-          <img src="foto3.jpg" alt="Photo 3" class="w-full h-44 object-cover rounded-xl mb-2 grayscale hover:grayscale-0 transition duration-500">
-          <p class="text-center font-handwriting text-2xl text-white">Favorite smile #3</p>
-        </div>
-        <div onclick="openLightbox('foto4.jpg', 'Unfiltered Joy #4')" class="bg-zinc-900 border border-white/20 p-3 rounded-2xl transform rotate-1 hover:rotate-0 transition duration-300 shadow-xl cursor-pointer">
-          <img src="foto4.jpg" alt="Photo 4" class="w-full h-44 object-cover rounded-xl mb-2 grayscale hover:grayscale-0 transition duration-500">
-          <p class="text-center font-handwriting text-2xl text-white">Unfiltered joy #4</p>
+        <div class="p-4 max-h-[420px] overflow-y-auto">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+            <div onclick="openLightbox('foto1.jpg', 'Core Memory #1')" class="bg-black border border-white/20 p-2 rounded-xl cursor-pointer group">
+              <img src="foto1.jpg" class="w-full h-32 object-cover rounded-lg group-hover:scale-105 transition">
+              <p class="text-[10px] font-os-mono text-gray-400 mt-2 text-center">foto1.jpg</p>
+            </div>
+            <div onclick="openLightbox('foto2.jpg', 'Core Memory #2')" class="bg-black border border-white/20 p-2 rounded-xl cursor-pointer group">
+              <img src="foto2.jpg" class="w-full h-32 object-cover rounded-lg group-hover:scale-105 transition">
+              <p class="text-[10px] font-os-mono text-gray-400 mt-2 text-center">foto2.jpg</p>
+            </div>
+            <div onclick="openLightbox('foto3.jpg', 'Core Memory #3')" class="bg-black border border-white/20 p-2 rounded-xl cursor-pointer group">
+              <img src="foto3.jpg" class="w-full h-32 object-cover rounded-lg group-hover:scale-105 transition">
+              <p class="text-[10px] font-os-mono text-gray-400 mt-2 text-center">foto3.jpg</p>
+            </div>
+            <div onclick="openLightbox('foto4.jpg', 'Core Memory #4')" class="bg-black border border-white/20 p-2 rounded-xl cursor-pointer group">
+              <img src="foto4.jpg" class="w-full h-32 object-cover rounded-lg group-hover:scale-105 transition">
+              <p class="text-[10px] font-os-mono text-gray-400 mt-2 text-center">foto4.jpg</p>
+            </div>
+            <div onclick="openLightbox('foto5.jpg', 'Core Memory #5')" class="bg-black border border-white/20 p-2 rounded-xl cursor-pointer group">
+              <img src="foto5.jpg" class="w-full h-32 object-cover rounded-lg group-hover:scale-105 transition">
+              <p class="text-[10px] font-os-mono text-gray-400 mt-2 text-center">foto5.jpg</p>
+            </div>
+            <div onclick="openLightbox('foto6.jpg', 'Core Memory #6')" class="bg-black border border-white/20 p-2 rounded-xl cursor-pointer group">
+              <img src="foto6.jpg" class="w-full h-32 object-cover rounded-lg group-hover:scale-105 transition">
+              <p class="text-[10px] font-os-mono text-gray-400 mt-2 text-center">foto6.jpg</p>
+            </div>
+          </div>
         </div>
       </div>
-    </section>
 
 
-    <!-- 8. RUNAWAY BUTTON SECTION -->
-    <section class="py-16 px-4 max-w-md mx-auto text-center">
-      <div class="obsidian-glass p-8 rounded-[35px] relative overflow-hidden border-white/20">
-        <h2 class="font-title text-lg font-bold text-white mb-6">Deandra, how deeply do you adore Danial? 👀</h2>
-        <div class="flex justify-center gap-4 relative min-h-[60px]" id="btn-container">
-          <button id="btn-yes" onclick="sayYes()" class="btn-noir text-xs py-3.5 px-6 rounded-2xl tracking-wider uppercase">
-            LOVE YOU TONS 🖤
-          </button>
-          <button id="btn-no" onmouseover="runAway()" class="bg-white/10 text-gray-400 font-bold text-xs py-3.5 px-6 rounded-2xl absolute right-0 transition-all duration-200">
-            Meh...
+      <!-- WINDOW 4: TIMER APP -->
+      <div id="win-timer" class="os-glass-window absolute top-20 left-4 md:left-48 w-[92%] md:w-[480px] rounded-2xl hidden z-20">
+        <div class="h-8 bg-black/60 border-b border-white/15 px-3 flex items-center justify-between text-xs font-os-mono">
+          <span class="text-gray-300"><i class="fa-solid fa-hourglass-half mr-1"></i> Time Matrix — Since 03-03-2026</span>
+          <button onclick="closeApp('win-timer')" class="w-3 h-3 rounded-full bg-rose-500"></button>
+        </div>
+        <div class="p-6 text-center">
+          <h3 class="font-title text-xl text-white font-bold mb-4">TIME TOGETHER</h3>
+          <div class="grid grid-cols-4 gap-2 font-os-mono mb-6">
+            <div class="bg-white/5 border border-white/15 p-3 rounded-xl">
+              <span id="days" class="text-2xl font-bold text-white block">0</span>
+              <span class="text-[9px] text-gray-400">DAYS</span>
+            </div>
+            <div class="bg-white/5 border border-white/15 p-3 rounded-xl">
+              <span id="hours" class="text-2xl font-bold text-white block">0</span>
+              <span class="text-[9px] text-gray-400">HOURS</span>
+            </div>
+            <div class="bg-white/5 border border-white/15 p-3 rounded-xl">
+              <span id="minutes" class="text-2xl font-bold text-white block">0</span>
+              <span class="text-[9px] text-gray-400">MINS</span>
+            </div>
+            <div class="bg-white/5 border border-white/15 p-3 rounded-xl">
+              <span id="seconds" class="text-2xl font-bold text-white block">0</span>
+              <span class="text-[9px] text-gray-400">SECS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- WINDOW 5: CYBER PONG ARCADE APP -->
+      <div id="win-arcade" class="os-glass-window absolute top-12 left-4 md:left-24 w-[92%] md:w-[500px] rounded-2xl hidden z-20">
+        <div class="h-8 bg-black/60 border-b border-white/15 px-3 flex items-center justify-between text-xs font-os-mono">
+          <span class="text-gray-300"><i class="fa-solid fa-gamepad mr-1"></i> Arcade — Cyber Pong vs Danial Bot</span>
+          <button onclick="closeApp('win-arcade')" class="w-3 h-3 rounded-full bg-rose-500"></button>
+        </div>
+        <div class="p-4 text-center">
+          <div class="relative w-full h-[260px] bg-black border border-white/20 rounded-xl overflow-hidden mb-3">
+            <canvas id="pong-canvas" class="w-full h-full"></canvas>
+          </div>
+          <button onclick="startPongGame()" class="bg-white text-black font-bold font-os-mono text-xs py-2 px-6 rounded-xl">
+            START PONG MATCH 🏓
           </button>
         </div>
       </div>
-    </section>
 
-    <!-- 9. LOVE LETTER SECTION -->
-    <section class="py-16 px-4 max-w-2xl mx-auto text-center">
-      <div class="obsidian-glass obsidian-glow p-8 md:p-12 rounded-[40px] text-center relative">
-        <div class="text-white text-4xl mb-4 cursor-pointer hover:scale-110 transition" onclick="triggerParticles()">
-          <i class="fa-solid fa-envelope-open-text animate-bounce"></i>
+
+      <!-- WINDOW 6: VOUCHERS APP -->
+      <div id="win-vouchers" class="os-glass-window absolute top-16 left-4 md:left-36 w-[92%] md:w-[460px] rounded-2xl hidden z-20">
+        <div class="h-8 bg-black/60 border-b border-white/15 px-3 flex items-center justify-between text-xs font-os-mono">
+          <span class="text-gray-300"><i class="fa-solid fa-ticket mr-1"></i> Tickets & Vouchers Wallet</span>
+          <button onclick="closeApp('win-vouchers')" class="w-3 h-3 rounded-full bg-rose-500"></button>
         </div>
-        <h2 class="font-title text-2xl font-bold text-white mb-4">TRANSMISSION FOR DEANDRA</h2>
-        <p class="text-gray-300 text-sm md:text-base leading-relaxed mb-6 font-light">
-          Thank you for making life 100x more meaningful and bright. Even when I am goofy or annoying, I’m truly blessed to have you in my universe. Let’s keep rocking this story together!
-        </p>
-        <p class="font-handwriting text-4xl text-white">- Yours, Danial -</p>
+        <div class="p-4 space-y-3 font-os-mono text-xs">
+          <div onclick="claimTicket('Unlimited Foodie Quest')" class="bg-white/5 border border-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/10 flex items-center justify-between">
+            <div>
+              <h4 class="font-bold text-white">Foodie Quest Pass</h4>
+              <p class="text-[10px] text-gray-400">Danial treats your food craving</p>
+            </div>
+            <span class="bg-white text-black text-[9px] font-bold px-2 py-1 rounded">CLAIM ➔</span>
+          </div>
+
+          <div onclick="claimTicket('Instant Forgiveness Pass')" class="bg-white/5 border border-white/20 p-4 rounded-xl cursor-pointer hover:bg-white/10 flex items-center justify-between">
+            <div>
+              <h4 class="font-bold text-white">Forgiveness Pass</h4>
+              <p class="text-[10px] text-gray-400">Instant victory if Danial gets annoying</p>
+            </div>
+            <span class="bg-white text-black text-[9px] font-bold px-2 py-1 rounded">CLAIM ➔</span>
+          </div>
+        </div>
       </div>
-    </section>
+
+
+      <!-- WINDOW 7: SECRET NOTE APP -->
+      <div id="win-letter" class="os-glass-window absolute top-10 left-4 md:left-28 w-[92%] md:w-[520px] rounded-2xl hidden z-20">
+        <div class="h-8 bg-black/60 border-b border-white/15 px-3 flex items-center justify-between text-xs font-os-mono">
+          <span class="text-gray-300"><i class="fa-solid fa-file-lines mr-1"></i> letter_from_danial.txt</span>
+          <button onclick="closeApp('win-letter')" class="w-3 h-3 rounded-full bg-rose-500"></button>
+        </div>
+        <div class="p-6 font-handwriting text-2xl text-gray-200 leading-relaxed text-center">
+          "Deandra, thank you for bringing endless joy, light, and warmth into my everyday world. I'm truly blessed to have you in my universe. Let's keep writing our story together!"
+          <div class="mt-4 font-bold text-white text-3xl">- Danial -</div>
+        </div>
+      </div>
+
+    </main>
+
+
+    <!-- BOTTOM OS DOCK LAUNCHER -->
+    <footer class="h-16 flex items-center justify-center pb-2 z-30">
+      <div class="obsidian-glass px-5 py-2 rounded-2xl border border-white/20 flex items-center gap-4">
+        <button onclick="openApp('win-music')" class="os-dock-item text-xl text-white"><i class="fa-solid fa-compact-disc"></i></button>
+        <button onclick="openApp('win-chat')" class="os-dock-item text-xl text-white"><i class="fa-solid fa-comments"></i></button>
+        <button onclick="openApp('win-gallery')" class="os-dock-item text-xl text-white"><i class="fa-solid fa-images"></i></button>
+        <button onclick="openApp('win-timer')" class="os-dock-item text-xl text-white"><i class="fa-solid fa-hourglass-half"></i></button>
+        <button onclick="openApp('win-arcade')" class="os-dock-item text-xl text-white"><i class="fa-solid fa-gamepad"></i></button>
+        <button onclick="openApp('win-vouchers')" class="os-dock-item text-xl text-white"><i class="fa-solid fa-ticket"></i></button>
+        <button onclick="openApp('win-letter')" class="os-dock-item text-xl text-white"><i class="fa-solid fa-file-lines"></i></button>
+      </div>
+    </footer>
 
   </div>
 
 
-  <!-- ================= MODALS & OVERLAYS ================= -->
-  
-  <!-- LIGHTBOX MODAL -->
+  <!-- LIGHTBOX & RECEIPT MODALS -->
   <div id="lightbox-modal" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-md hidden flex flex-col items-center justify-center p-4" onclick="closeLightbox()">
-    <img id="lightbox-img" src="" class="max-w-full max-h-[80vh] rounded-2xl shadow-2xl border border-white/30 mb-4">
-    <p id="lightbox-caption" class="font-title text-base text-white tracking-widest"></p>
-    <p class="text-xs text-gray-500 mt-2 font-mono">Click anywhere to close</p>
+    <img id="lightbox-img" src="" class="max-w-full max-h-[80vh] rounded-2xl border border-white/30 mb-4">
+    <p id="lightbox-caption" class="font-os-mono text-xs text-white"></p>
   </div>
 
-  <!-- RECEIPT MODAL -->
   <div id="receipt-modal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden flex items-center justify-center p-4">
-    <div class="obsidian-glass p-8 rounded-3xl max-w-sm w-full text-center border border-white/40">
-      <div class="text-white text-3xl mb-2"><i class="fa-solid fa-circle-check"></i></div>
-      <h3 class="font-title text-xl font-bold text-white mb-1">VOUCHER CLAIMED</h3>
-      <p class="text-xs text-gray-400 mb-4 font-mono">Official digital receipt issued to Deandra</p>
-      
-      <div class="bg-black/80 border border-white/20 p-4 rounded-xl text-left text-xs space-y-2 mb-6 font-mono">
-        <div><span class="text-gray-500">ITEM:</span> <span id="receipt-title" class="text-white font-bold"></span></div>
-        <div><span class="text-gray-500">ISSUER:</span> <span class="text-gray-300">Danial</span></div>
-        <div><span class="text-gray-500">DATE:</span> <span class="text-gray-300" id="receipt-date"></span></div>
-        <div><span class="text-gray-500">STATUS:</span> <span class="text-white font-bold">REDEEMABLE 100%</span></div>
-      </div>
-
-      <button onclick="document.getElementById('receipt-modal').classList.add('hidden')" class="w-full btn-noir text-xs py-3 rounded-xl uppercase tracking-widest">
-        CLOSE & SCREENSHOT 📸
-      </button>
+    <div class="os-glass-window p-6 rounded-2xl max-w-xs w-full text-center border border-white/30 font-os-mono text-xs">
+      <h3 class="font-bold text-white text-sm mb-2">TICKET ISSUED</h3>
+      <p id="receipt-title" class="text-emerald-400 font-bold mb-4"></p>
+      <button onclick="document.getElementById('receipt-modal').classList.add('hidden')" class="w-full bg-white text-black font-bold py-2 rounded-xl">CLOSE</button>
     </div>
   </div>
 
 
-  <!-- ================= JAVASCRIPT ENGINE ================= -->
+  <!-- SYSTEM JAVASCRIPT ENGINE -->
   <script>
-    // --- SYNTHESIZER SOUND EFFECTS ---
     function playBeep() {
       try {
         const ctx = new (window.AudioContext || window.webkitAudioContext)();
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(600, ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(900, ctx.currentTime + 0.12);
-        gain.gain.setValueAtTime(0.08, ctx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.12);
+        osc.frequency.setValueAtTime(700, ctx.currentTime);
+        gain.gain.setValueAtTime(0.05, ctx.currentTime);
         osc.connect(gain);
         gain.connect(ctx.destination);
         osc.start();
-        osc.stop(ctx.currentTime + 0.12);
+        osc.stop(ctx.currentTime + 0.1);
       } catch(e){}
     }
 
-    // --- GATEKEEPER SCAN & PASSCODE ---
-    function scanBiometric() {
+    // BOOT SYSTEM
+    function bootSystem() {
       playBeep();
-      const line = document.getElementById('bio-scan-line');
-      line.style.opacity = '1';
-      line.style.top = '0%';
-      setTimeout(() => line.style.top = '100%', 200);
-      setTimeout(() => {
-        line.style.opacity = '0';
-        document.getElementById('pass-input').value = '030326';
-        checkPasscode();
-      }, 500);
-    }
-
-    function checkPasscode() {
-      playBeep();
-      const input = document.getElementById('pass-input').value.replace(/[^0-9]/g, '');
-      const err = document.getElementById('pass-error');
-      
-      if (input === '030326' || input === '03032026') {
-        const gatekeeper = document.getElementById('gatekeeper');
-        gatekeeper.classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-          gatekeeper.classList.add('hidden');
-          document.getElementById('main-app').classList.remove('hidden');
-          triggerParticles();
-        }, 700);
+      const val = document.getElementById('pass-input').value.replace(/[^0-9]/g, '');
+      if (val === '030326' || val === '03032026') {
+        document.getElementById('bios-screen').classList.add('hidden');
+        document.getElementById('desktop-env').classList.remove('hidden');
+        setInterval(updateClock, 1000);
+        updateClock();
+        updateCounter();
+        setInterval(updateCounter, 1000);
+        openApp('win-music');
       } else {
-        err.classList.remove('hidden');
-        document.getElementById('gatekeeper-box').classList.add('animate-bounce');
-        setTimeout(() => document.getElementById('gatekeeper-box').classList.remove('animate-bounce'), 500);
+        document.getElementById('pass-error').classList.remove('hidden');
       }
     }
 
-    // --- MUSIC & SYNCHRONIZED LYRICS ---
-    const audio = document.getElementById('bg-music');
-    const lyricsDisplay = document.getElementById('lyrics-display');
-    const vinyl = document.getElementById('vinyl-record');
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('sys-clock').innerText = now.toLocaleTimeString();
+    }
 
+    // WINDOW MANAGER
+    function openApp(id) {
+      playBeep();
+      document.getElementById(id).classList.remove('hidden');
+    }
+    function closeApp(id) {
+      playBeep();
+      document.getElementById(id).classList.add('hidden');
+    }
+
+    // MUSIC AUDIO & LYRICS
+    const audio = document.getElementById('bg-music');
     const lyricsData = [
       { time: 0, text: "🎶 (Intro Music) 🎶" },
       { time: 60, text: "Looking back on the things I've done" },
@@ -564,21 +469,18 @@
       { time: 75, text: "Now let me show you the shape of my heart" }
     ];
 
-    function toggleMusic() {
+    function toggleAudio() {
       playBeep();
-      const playText = document.getElementById('music-play-text');
-      const playIcon = document.getElementById('music-play-icon');
-
+      const btn = document.getElementById('music-play-btn');
+      const disc = document.getElementById('music-disc-inner');
       if (audio.paused) {
         audio.play();
-        vinyl.classList.add('animate-spin');
-        playIcon.className = 'fa-solid fa-pause';
-        playText.innerText = 'PAUSE TRACK';
+        disc.classList.add('animate-spin');
+        btn.innerText = 'PAUSE AUDIO';
       } else {
         audio.pause();
-        vinyl.classList.remove('animate-spin');
-        playIcon.className = 'fa-solid fa-play';
-        playText.innerText = 'PLAY TRACK: SHAPE OF MY HEART';
+        disc.classList.remove('animate-spin');
+        btn.innerText = 'PLAY AUDIO ✦';
       }
     }
 
@@ -588,213 +490,114 @@
       for (let i = 0; i < lyricsData.length; i++) {
         if (cur >= lyricsData[i].time) text = lyricsData[i].text;
       }
-      lyricsDisplay.innerHTML = `<p class="animate-pulse text-white font-semibold">${text}</p>`;
+      document.getElementById('lyrics-box').innerText = text;
     });
 
-    // --- ARCADE GAME LOGIC ---
-    let gameCanvas, gameCtx;
-    let gameRunning = false;
-    let score = 0;
-    let playerX = 150;
-    let heartsList = [];
-
-    function startGame() {
+    // CHAT SIMULATOR
+    function sendChatReply(msg) {
       playBeep();
-      document.getElementById('game-overlay').classList.add('hidden');
-      gameCanvas = document.getElementById('game-canvas');
-      gameCtx = gameCanvas.getContext('2d');
-      gameCanvas.width = gameCanvas.parentElement.clientWidth;
-      gameCanvas.height = gameCanvas.parentElement.clientHeight;
-      
-      gameRunning = true;
-      score = 0;
-      document.getElementById('game-score').innerText = score;
+      const feed = document.getElementById('chat-feed');
+      feed.innerHTML += `
+        <div class="flex justify-end gap-2">
+          <div class="bg-white text-black p-3 rounded-2xl rounded-tr-none max-w-[80%] font-bold">
+            ${msg}
+          </div>
+        </div>
+      `;
+      feed.scrollTop = feed.scrollHeight;
 
-      gameCanvas.addEventListener('mousemove', (e) => {
-        const rect = gameCanvas.getBoundingClientRect();
-        playerX = e.clientX - rect.left;
-      });
-
-      gameCanvas.addEventListener('touchmove', (e) => {
-        const rect = gameCanvas.getBoundingClientRect();
-        playerX = e.touches[0].clientX - rect.left;
-      });
-
-      requestAnimationFrame(gameLoop);
+      setTimeout(() => {
+        feed.innerHTML += `
+          <div class="flex gap-2">
+            <div class="w-7 h-7 rounded-full bg-white/20 flex items-center justify-center text-xs text-white font-bold shrink-0">D</div>
+            <div class="bg-white/10 border border-white/15 p-3 rounded-2xl rounded-tl-none max-w-[80%] text-gray-200">
+              Aaaaa you're so sweet Deandra! Sending you endless love! 💕
+            </div>
+          </div>
+        `;
+        feed.scrollTop = feed.scrollHeight;
+        triggerParticles();
+      }, 1000);
     }
 
-    function gameLoop() {
-      if (!gameRunning) return;
-      gameCtx.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-
-      // Draw Player Paddle
-      gameCtx.fillStyle = '#ffffff';
-      gameCtx.fillRect(playerX - 35, gameCanvas.height - 20, 70, 10);
-
-      // Spawn Hearts randomly
-      if (Math.random() < 0.04) {
-        heartsList.push({
-          x: Math.random() * (gameCanvas.width - 20) + 10,
-          y: 0,
-          speed: Math.random() * 2 + 2
-        });
-      }
-
-      // Draw and Move Hearts
-      for (let i = 0; i < heartsList.length; i++) {
-        let h = heartsList[i];
-        h.y += h.speed;
-
-        gameCtx.font = "20px sans-serif";
-        gameCtx.fillText("🖤", h.x, h.y);
-
-        // Collision Check
-        if (h.y >= gameCanvas.height - 25 && Math.abs(h.x - playerX) < 40) {
-          score++;
-          document.getElementById('game-score').innerText = score;
-          heartsList.splice(i, 1);
-          i--;
-          playBeep();
-
-          if (score >= 10) {
-            gameRunning = false;
-            document.getElementById('game-status').innerText = "YOU WIN! 🎉 Danial owes you boba!";
-            triggerParticles();
-            break;
-          }
-        } else if (h.y > gameCanvas.height) {
-          heartsList.splice(i, 1);
-          i--;
-        }
-      }
-
-      if (gameRunning) requestAnimationFrame(gameLoop);
-    }
-
-    // --- RELATIONSHIP COUNTER & MILESTONE RING ---
+    // TIMER
     const startDate = new Date('2026-03-03T00:00:00');
     function updateCounter() {
       const now = new Date();
       const diff = now - startDate;
+      document.getElementById('days').innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+      document.getElementById('hours').innerText = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      document.getElementById('minutes').innerText = Math.floor((diff / 1000 / 60) % 60);
+      document.getElementById('seconds').innerText = Math.floor((diff / 1000) % 60);
+    }
+
+    // PONG ARCADE
+    let pongCtx, pongCanvas;
+    function startPongGame() {
+      playBeep();
+      pongCanvas = document.getElementById('pong-canvas');
+      pongCtx = pongCanvas.getContext('2d');
+      pongCanvas.width = pongCanvas.parentElement.clientWidth;
+      pongCanvas.height = pongCanvas.parentElement.clientHeight;
       
-      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-      const minutes = Math.floor((diff / 1000 / 60) % 60);
-      const seconds = Math.floor((diff / 1000) % 60);
+      let ballX = pongCanvas.width / 2, ballY = pongCanvas.height / 2;
+      let dx = 3, dy = 3;
+      let padY = 50;
 
-      document.getElementById('days').innerText = days >= 0 ? days : 0;
-      document.getElementById('hours').innerText = hours >= 0 ? hours : 0;
-      document.getElementById('minutes').innerText = minutes >= 0 ? minutes : 0;
-      document.getElementById('seconds').innerText = seconds >= 0 ? seconds : 0;
+      pongCanvas.addEventListener('mousemove', (e) => {
+        const rect = pongCanvas.getBoundingClientRect();
+        padY = e.clientY - rect.top - 20;
+      });
 
-      const pct = Math.min(100, Math.max(0, ((days / 365) * 100))).toFixed(1);
-      document.getElementById('year-progress-percent').innerText = `${pct}%`;
-      document.getElementById('year-progress-bar').style.width = `${pct}%`;
+      function loop() {
+        pongCtx.clearRect(0, 0, pongCanvas.width, pongCanvas.height);
+        
+        // Draw Paddle
+        pongCtx.fillStyle = '#ffffff';
+        pongCtx.fillRect(10, padY, 8, 40);
+
+        // Draw Ball
+        pongCtx.beginPath();
+        pongCtx.arc(ballX, ballY, 6, 0, Math.PI * 2);
+        pongCtx.fill();
+
+        ballX += dx; ballY += dy;
+        if (ballY < 0 || ballY > pongCanvas.height) dy = -dy;
+        if (ballX < 20 && ballY > padY && ballY < padY + 40) dx = -dx;
+        if (ballX > pongCanvas.width || ballX < 0) { ballX = pongCanvas.width / 2; ballY = pongCanvas.height / 2; }
+
+        requestAnimationFrame(loop);
+      }
+      loop();
     }
-    setInterval(updateCounter, 1000);
-    updateCounter();
 
-    // --- MOOD SELECTOR ---
-    const moodData = {
-      happy: "Yay! Seeing you happy instantly makes my whole day brighter! Let's celebrate! 🥰✨",
-      tired: "Take a deep breath and rest up! I'm sending you virtual forehead kisses & warm hugs 😴💕",
-      hungry: "Food quest activated! Tell Danial what you crave and consider it done 🍕🧋",
-      miss: "Aaaaa I miss you so much more! Can't wait for our next date 💭🖤"
-    };
-    function selectMood(key) {
+    // LIGHTBOX & TICKET
+    function openLightbox(src, cap) {
       playBeep();
-      const box = document.getElementById('mood-response-box');
-      document.getElementById('mood-text').innerText = moodData[key];
-      box.classList.remove('hidden');
-      triggerParticles();
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-caption').innerText = cap;
+      document.getElementById('lightbox-modal').classList.remove('hidden');
     }
+    function closeLightbox() { document.getElementById('lightbox-modal').classList.add('hidden'); }
 
-    // --- SLOT MACHINE ---
-    const slotSymbols = ['🖤', '✨', '🪩', '💍', '🍿', '👑'];
-    let isSlotSpinning = false;
-    function spinLoveSlots() {
-      if (isSlotSpinning) return;
-      playBeep();
-      isSlotSpinning = true;
-
-      const r1 = document.getElementById('reel1');
-      const r2 = document.getElementById('reel2');
-      const r3 = document.getElementById('reel3');
-      const res = document.getElementById('slot-result');
-
-      let spinCount = 0;
-      const interval = setInterval(() => {
-        r1.innerText = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-        r2.innerText = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-        r3.innerText = slotSymbols[Math.floor(Math.random() * slotSymbols.length)];
-        spinCount++;
-
-        if (spinCount > 20) {
-          clearInterval(interval);
-          isSlotSpinning = false;
-          
-          r1.innerText = '🖤';
-          r2.innerText = '🖤';
-          r3.innerText = '🖤';
-          
-          res.innerText = 'JACKPOT! You won an Unlimited Hugs & Foodie Date Pass! 🎉';
-          res.classList.remove('hidden');
-          triggerParticles();
-        }
-      }, 80);
-    }
-
-    // --- COUPON & RECEIPT ---
-    function claimCoupon(title) {
+    function claimTicket(title) {
       playBeep();
       document.getElementById('receipt-title').innerText = title;
-      document.getElementById('receipt-date').innerText = new Date().toLocaleDateString();
       document.getElementById('receipt-modal').classList.remove('hidden');
       triggerParticles();
     }
 
-    // --- LIGHTBOX GALLERY ---
-    function openLightbox(src, caption) {
-      playBeep();
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-caption').innerText = caption;
-      document.getElementById('lightbox-modal').classList.remove('hidden');
-    }
-    function closeLightbox() {
-      document.getElementById('lightbox-modal').classList.add('hidden');
-    }
-
-    // --- RUNAWAY BUTTON ---
-    const noBtnMessages = ['Nice try! 😜', 'Nope! 🚀', 'Can\'t click me!', 'Too slow! 💨', 'Danial only! 🖤'];
-    let msgIdx = 0;
-    function runAway() {
-      playBeep();
-      const btnNo = document.getElementById('btn-no');
-      const rx = Math.floor(Math.random() * 180) - 90;
-      const ry = Math.floor(Math.random() * 90) - 45;
-      btnNo.style.transform = `translate(${rx}px, ${ry}px)`;
-      btnNo.innerText = noBtnMessages[msgIdx % noBtnMessages.length];
-      msgIdx++;
-    }
-
-    function sayYes() {
-      playBeep();
-      alert('Aaaaa Danial loves Deandra so much too! 🥰🖤');
-      triggerParticles();
-    }
-
-    // --- PARTICLES ENGINE ---
     function triggerParticles() {
-      for (let i = 0; i < 35; i++) {
+      for (let i = 0; i < 25; i++) {
         setTimeout(() => {
-          const particle = document.createElement('div');
-          particle.className = 'floating-particle text-xl font-mono';
-          particle.innerText = ['🖤', '🤍', '✨', '🪩', '✦', '💬'][Math.floor(Math.random() * 6)];
-          particle.style.left = Math.random() * 100 + 'vw';
-          particle.style.bottom = '0';
-          document.body.appendChild(particle);
-          setTimeout(() => particle.remove(), 3500);
-        }, i * 70);
+          const p = document.createElement('div');
+          p.className = 'particle font-os-mono text-xl';
+          p.innerText = ['🖤', '✨', '🪩', '💬', '✦'][Math.floor(Math.random() * 5)];
+          p.style.left = Math.random() * 100 + 'vw';
+          p.style.bottom = '0';
+          document.body.appendChild(p);
+          setTimeout(() => p.remove(), 3500);
+        }, i * 60);
       }
     }
   </script>
