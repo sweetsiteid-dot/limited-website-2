@@ -8,80 +8,10 @@ import {
   CheckCircle, Circle, Share2, Star, Sliders, MessageSquare, ArrowRight, CheckCircle2
 } from 'lucide-react';
 
-// --- Web Audio API Synth (Di-guard agar aman dari Server-Side Rendering Vercel) ---
-class AmbientAudio {
-  constructor() {
-    this.ctx = null;
-    this.isPlaying = false;
-    this.interval = null;
-  }
-
-  init() {
-    if (typeof window === 'undefined') return;
-    if (!this.ctx) {
-      const AudioCtx = window.AudioContext || window.webkitAudioContext;
-      if (AudioCtx) {
-        this.ctx = new AudioCtx();
-      }
-    }
-  }
-
-  play() {
-    if (typeof window === 'undefined') return;
-    this.init();
-    if (!this.ctx) return;
-
-    if (this.ctx.state === 'suspended') {
-      this.ctx.resume();
-    }
-    this.isPlaying = true;
-    
-    const chords = [
-      [261.63, 329.63, 392.00, 493.88], // Cmaj7
-      [220.00, 261.63, 329.63, 392.00], // Am7
-      [174.61, 220.00, 261.63, 329.63], // Fmaj7
-      [196.00, 246.94, 293.66, 349.23]  // G7
-    ];
-    let chordIdx = 0;
-
-    const playChord = () => {
-      if (!this.isPlaying || !this.ctx) return;
-      const currentChord = chords[chordIdx];
-      currentChord.forEach((freq, idx) => {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
-        
-        gain.gain.setValueAtTime(0, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.04, this.ctx.currentTime + 1.5);
-        gain.gain.exponentialRampToValueAtTime(0.0001, this.ctx.currentTime + 4.5);
-        
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        
-        osc.start(this.ctx.currentTime + idx * 0.1);
-        osc.stop(this.ctx.currentTime + 4.5);
-      });
-      chordIdx = (chordIdx + 1) % chords.length;
-    };
-
-    playChord();
-    this.interval = setInterval(playChord, 5000);
-  }
-
-  stop() {
-    this.isPlaying = false;
-    if (this.interval) clearInterval(this.interval);
-  }
-}
-
-let audioSynth = null;
-
 // --- Main App Component ---
 export default function App() {
   const [isMounted, setIsMounted] = useState(false);
+  const audioRef = useRef(null);
 
   // States
   const [anniversaryDate, setAnniversaryDate] = useState('2023-02-14T00:00:00');
@@ -97,10 +27,9 @@ export default function App() {
   const [currentTrackIdx, setCurrentTrackIdx] = useState(0);
 
   const tracks = [
+    { title: "Shape of My Heart", artist: "Favorite Song", duration: "04:38" },
     { title: "Sweet Serenade (Lofi Romance)", artist: "Bucin Records", duration: "03:45" },
-    { title: "Midnight Moonlight Whispers", artist: "Acoustic Love", duration: "04:12" },
-    { title: "Coffee & Cozy Blankets", artist: "Pastel Chill", duration: "02:58" },
-    { title: "Our Favorite Golden Hour", artist: "Endless Sunset", duration: "03:30" }
+    { title: "Coffee & Cozy Blankets", artist: "Pastel Chill", duration: "02:58" }
   ];
 
   const [toastMessage, setToastMessage] = useState(null);
@@ -194,10 +123,17 @@ xoxo ❤️`
   const [editAnniversary, setEditAnniversary] = useState('2023-02-14');
   const [editPin, setEditPin] = useState('1234');
 
+  // --- AUTO SCROLL KE ATAS SAAT KELIK OPTI / TAB ---
+  const handleTabChange = (tabId) => {
+    setActiveTab(tabId);
+    if (typeof window !== 'undefined') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   // --- Hydration Safe LocalStorage Load ---
   useEffect(() => {
     setIsMounted(true);
-    audioSynth = new AmbientAudio();
 
     if (typeof window !== 'undefined') {
       const savedAnniversary = localStorage.getItem('bucin_anniversary');
@@ -276,16 +212,21 @@ xoxo ❤️`
     }
   }, [anniversaryDate, partnerNames, partnerStatus, isMounted]);
 
+  // --- PEMUTAR LAGU shapeofmyheart.mp3 ---
   const toggleMusic = () => {
-    if (!audioSynth) return;
+    if (!audioRef.current) return;
     if (isPlayingMusic) {
-      audioSynth.stop();
+      audioRef.current.pause();
       setIsPlayingMusic(false);
-      showToast("🎵 Ambient music paused");
+      showToast("🎵 Musik di-pause");
     } else {
-      audioSynth.play();
-      setIsPlayingMusic(true);
-      showToast("🎶 Playing romantic ambient soundscape");
+      audioRef.current.play().then(() => {
+        setIsPlayingMusic(true);
+        showToast("🎶 Memutar: Shape of My Heart ❤️");
+      }).catch((err) => {
+        console.log("Autoplay diblokir browser:", err);
+        showToast("Klik sekali lagi untuk memutar musik!");
+      });
     }
   };
 
@@ -477,6 +418,9 @@ xoxo ❤️`
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-rose-50 via-pink-50 to-red-50 text-slate-800 font-sans relative overflow-x-hidden pb-24">
+      {/* Element Audio memanggil /shapeofmyheart.mp3 dari folder /public */}
+      <audio ref={audioRef} src="/shapeofmyheart.mp3" loop prefetch="auto" />
+
       {/* Floating Canvas Hearts Background */}
       <HeartsCanvas />
 
@@ -491,7 +435,7 @@ xoxo ❤️`
       {/* --- Top Navigation Bar --- */}
       <header className="sticky top-0 z-40 backdrop-blur-md bg-white/70 border-b border-rose-100 shadow-sm transition-all">
         <div className="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
-          <div className="flex items-center gap-2 cursor-pointer" onClick={() => setActiveTab('hero')}>
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => handleTabChange('hero')}>
             <div className="bg-gradient-to-tr from-rose-500 to-pink-500 p-2 rounded-2xl shadow-md text-white">
               <Heart className="w-6 h-6 fill-white animate-pulse" />
             </div>
@@ -503,7 +447,7 @@ xoxo ❤️`
             </div>
           </div>
 
-          {/* Nav Tabs */}
+          {/* Nav Tabs Desktop */}
           <nav className="hidden md:flex items-center gap-1 bg-rose-100/60 p-1.5 rounded-full border border-rose-200/50">
             {[
               { id: 'hero', label: 'Home', icon: Heart },
@@ -519,7 +463,7 @@ xoxo ❤️`
               return (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => handleTabChange(tab.id)}
                   className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold transition-all ${
                     isActive
                       ? 'bg-gradient-to-r from-rose-500 to-pink-500 text-white shadow-md shadow-rose-300'
@@ -542,7 +486,7 @@ xoxo ❤️`
                   ? 'bg-rose-500 text-white border-rose-400 shadow-lg shadow-rose-300 animate-spin-slow'
                   : 'bg-white/80 text-rose-500 border-rose-200 hover:bg-rose-50'
               }`}
-              title="Toggle Romantic Ambient Music"
+              title="Toggle Romantic Music"
             >
               {isPlayingMusic ? <Music className="w-4 h-4 animate-bounce" /> : <VolumeX className="w-4 h-4" />}
             </button>
@@ -713,7 +657,7 @@ xoxo ❤️`
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               
               <div
-                onClick={() => setActiveTab('coupons')}
+                onClick={() => handleTabChange('coupons')}
                 className="bg-gradient-to-br from-rose-500 to-pink-600 text-white p-6 rounded-3xl shadow-lg cursor-pointer transform hover:-translate-y-1 transition-all flex justify-between items-center group"
               >
                 <div>
@@ -727,7 +671,7 @@ xoxo ❤️`
               </div>
 
               <div
-                onClick={() => setActiveTab('vault')}
+                onClick={() => handleTabChange('vault')}
                 className="bg-white/80 backdrop-blur-xl p-6 rounded-3xl border border-rose-100 shadow-lg cursor-pointer transform hover:-translate-y-1 transition-all flex justify-between items-center group"
               >
                 <div>
@@ -741,7 +685,7 @@ xoxo ❤️`
               </div>
 
               <div
-                onClick={() => setActiveTab('bucket')}
+                onClick={() => handleTabChange('bucket')}
                 className="bg-white/80 backdrop-blur-xl p-6 rounded-3xl border border-rose-100 shadow-lg cursor-pointer transform hover:-translate-y-1 transition-all flex justify-between items-center group"
               >
                 <div>
@@ -1600,7 +1544,7 @@ xoxo ❤️`
           return (
             <button
               key={item.id}
-              onClick={() => setActiveTab(item.id)}
+              onClick={() => handleTabChange(item.id)}
               className={`p-2.5 rounded-full transition-all flex flex-col items-center justify-center ${
                 isActive ? 'bg-rose-500 text-white shadow-md shadow-rose-300' : 'text-slate-400 hover:text-rose-500'
               }`}
