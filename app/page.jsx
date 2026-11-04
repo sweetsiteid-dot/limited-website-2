@@ -1,4 +1,38 @@
 'use client';
+
+import { useState, useRef } from 'react';
+
+export default function WebBucin() {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+
+  const togglePlay = () => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.pause();
+      } else {
+        audioRef.current.play();
+      }
+      setIsPlaying(!isPlaying);
+    }
+  };
+
+  return (
+    <main className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-4">
+      {/* Element Audio (Diambil otomatis dari folder /public) */}
+      <audio ref={audioRef} src="/shapeofmyheart.mp3" loop />
+
+      {/* Tombol Play/Pause Musik */}
+      <button
+        onClick={togglePlay}
+        className="px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white font-semibold rounded-full shadow-lg transition flex items-center gap-2"
+      >
+        {isPlaying ? '⏸️ Pause: Shape of My Heart' : '🎵 Play: Shape of My Heart'}
+      </button>
+    </main>
+  );
+}
+
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Heart, Sparkles, Calendar, Clock, Music, Play, Pause, Volume2, VolumeX,
