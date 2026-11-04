@@ -1,35 +1,67 @@
 'use client';
 
-import { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { Heart, Play, Pause, Music, Sparkles, Gift, Lock, Calendar, Trophy, Volume2 } from 'lucide-react';
 
 export default function WebBucin() {
+  const [isMounted, setIsMounted] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const togglePlay = () => {
     if (audioRef.current) {
       if (isPlaying) {
         audioRef.current.pause();
       } else {
-        audioRef.current.play();
+        audioRef.current.play().catch((err) => console.log("Autoplay diblokir browser:", err));
       }
       setIsPlaying(!isPlaying);
     }
   };
 
-  return (
-    <main className="min-h-screen bg-slate-900 text-white flex flex-col items-center justify-center p-4">
-      {/* Element Audio (Diambil otomatis dari folder /public) */}
-      <audio ref={audioRef} src="/shapeofmyheart.mp3" loop />
+  // Mencegah error build Next.js saat pre-rendering di Vercel
+  if (!isMounted) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-pink-400 font-sans">
+        <div className="animate-pulse flex items-center gap-2">
+          <Heart className="w-6 h-6 fill-rose-500 text-rose-500 animate-bounce" />
+          <span>Memuat Web Bucin... ❤️</span>
+        </div>
+      </div>
+    );
+  }
 
-      {/* Tombol Play/Pause Musik */}
+  return (
+    <div className="min-h-screen bg-slate-950 text-white font-sans relative overflow-x-hidden selection:bg-pink-500 selection:text-white">
+      {/* File lagu dipanggil dari folder /public/shapeofmyheart.mp3 */}
+      <audio ref={audioRef} src="/shapeofmyheart.mp3" loop prefetch="auto" />
+
+      {/* Tombol Melayang Pemutar Musik (Kanan Bawah) */}
       <button
         onClick={togglePlay}
-        className="px-6 py-3 bg-pink-600 hover:bg-pink-700 text-white font-semibold rounded-full shadow-lg transition flex items-center gap-2"
+        className="fixed bottom-6 right-6 z-50 bg-rose-600/90 hover:bg-rose-500 text-white px-5 py-3 rounded-full shadow-2xl flex items-center gap-3 transition-all transform hover:scale-105 active:scale-95 border border-rose-400/30 backdrop-blur-md"
       >
-        {isPlaying ? '⏸️ Pause: Shape of My Heart' : '🎵 Play: Shape of My Heart'}
+        {isPlaying ? (
+          <>
+            <span className="relative flex h-3 w-3">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-3 w-3 bg-pink-500"></span>
+            </span>
+            <Pause className="w-4 h-4 text-white" />
+            <span className="text-sm font-medium">Pause: Shape of My Heart</span>
+          </>
+        ) : (
+          <>
+            <Music className="w-4 h-4 text-pink-300 animate-bounce" />
+            <span className="text-sm font-medium">Play: Shape of My Heart</span>
+          </>
+        )}
       </button>
-    </main>
+    </div>
   );
 }
 
