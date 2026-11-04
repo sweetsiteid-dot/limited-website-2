@@ -1,3 +1,4 @@
+'use client';
 import React, { useState, useEffect, useRef } from 'react';
 import {
   Heart, Sparkles, Calendar, Clock, Music, Play, Pause, Volume2, VolumeX,
